@@ -1,0 +1,580 @@
+
+<!-- saved from url=(0060)file:///C:/Users/Shared.Marketing/Downloads/daily-reset.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #EEF2EC;
+    --surface: #FBFCFA;
+    --ink: #20302B;
+    --muted: #6B7A72;
+    --faint: #93A29A;
+    --accent: #2F6F5E;
+    --accent-soft: #DCEAE2;
+    --reward: #D2913F;
+    --reward-soft: #F4E6CF;
+    --line: #DAE2DA;
+    --line-strong: #C6D1C7;
+    --radius: 16px;
+    --shadow: 0 1px 2px rgba(32,48,43,.04), 0 8px 24px rgba(32,48,43,.05);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 22px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  header { margin-bottom: 34px; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  .greeting {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(30px, 7vw, 44px);
+    line-height: 1.08;
+    margin: 0 0 6px;
+    letter-spacing: -.01em;
+  }
+  .greeting em { font-style: italic; color: var(--accent); }
+  .date { color: var(--muted); font-size: 15px; margin: 0; }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .card h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 21px;
+    margin: 0;
+    letter-spacing: -.01em;
+  }
+  .hint { color: var(--muted); font-size: 13.5px; margin: 6px 0 18px; max-width: 46ch; }
+  .count-pill {
+    font-size: 12px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* ---------- Today's Three ---------- */
+  .three-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+  }
+  .three-row:last-child { border-bottom: none; }
+  .num {
+    font-family: 'Fraunces', serif; font-size: 20px; color: var(--faint);
+    width: 22px; text-align: center; flex: none; transition: color .2s;
+  }
+  .three-row.done .num { color: var(--reward); }
+  .check {
+    width: 24px; height: 24px; flex: none; border-radius: 8px;
+    border: 1.5px solid var(--line-strong); background: transparent;
+    cursor: pointer; display: grid; place-items: center; padding: 0;
+    transition: background .18s, border-color .18s, transform .1s;
+  }
+  .check:hover { border-color: var(--accent); }
+  .check:active { transform: scale(.92); }
+  .check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3;
+    fill: none; opacity: 0; transition: opacity .18s; }
+  .check.on { background: var(--reward); border-color: var(--reward); }
+  .check.on svg { opacity: 1; }
+  .three-input {
+    flex: 1; border: none; background: transparent; font: inherit;
+    color: var(--ink); padding: 4px 0; min-width: 0;
+  }
+  .three-input::placeholder { color: var(--faint); }
+  .three-input:focus { outline: none; }
+  .three-row.done .three-input { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line-strong); }
+
+  /* ---------- Habits ---------- */
+  .habit-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 0; border-bottom: 1px solid var(--line);
+  }
+  .habit-row:last-child { border-bottom: none; }
+  .habit-name { flex: 1; font-size: 15.5px; min-width: 0; }
+  .habit-row.done .habit-name { color: var(--muted); }
+  .habit-edit {
+    flex: 1; border: 1px solid var(--line-strong); border-radius: 8px;
+    font: inherit; padding: 7px 10px; color: var(--ink); background: var(--bg);
+  }
+  .habit-edit:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .streak {
+    font-size: 11.5px; font-weight: 600; color: var(--reward);
+    background: var(--reward-soft); padding: 3px 9px; border-radius: 100px;
+    white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .streak svg { width: 10px; height: 10px; }
+  .remove-btn {
+    border: none; background: none; color: var(--faint); cursor: pointer;
+    font-size: 20px; line-height: 1; padding: 0 4px;
+  }
+  .remove-btn:hover { color: #b4543f; }
+  .add-habit {
+    margin-top: 14px; display: flex; gap: 8px;
+  }
+  .add-habit input {
+    flex: 1; border: 1px solid var(--line-strong); border-radius: 9px;
+    font: inherit; padding: 9px 12px; background: var(--bg);
+  }
+  .add-habit input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+  /* ---------- Brain dump ---------- */
+  .dump-form { display: flex; gap: 8px; margin-bottom: 14px; }
+  .dump-form input {
+    flex: 1; border: 1px solid var(--line-strong); border-radius: 9px;
+    font: inherit; padding: 10px 13px; background: var(--bg);
+  }
+  .dump-form input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .dump-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 15px;
+  }
+  .dump-item:last-child { border-bottom: none; }
+  .dump-item span { flex: 1; }
+  .promote {
+    border: 1px solid var(--accent-soft); background: var(--accent-soft);
+    color: var(--accent); border-radius: 7px; cursor: pointer; font: inherit;
+    font-size: 12px; font-weight: 600; padding: 4px 9px;
+  }
+  .promote:hover { background: var(--accent); color: #fff; }
+  .empty { color: var(--faint); font-size: 14px; font-style: italic; padding: 6px 0; }
+
+  /* ---------- Momentum strip (signature) ---------- */
+  .momentum { background: var(--ink); border-color: var(--ink); }
+  .momentum h2 { color: #F2F6F2; }
+  .momentum .hint { color: #9DB0A6; }
+  .strip { display: flex; justify-content: space-between; gap: 6px; margin-top: 6px; }
+  .day-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .dots { display: flex; flex-direction: column; gap: 5px; }
+  .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(255,255,255,.10); transition: background .25s, transform .25s;
+  }
+  .dot.on { background: var(--reward); }
+  .day-col.today .dlabel { color: var(--reward); font-weight: 600; }
+  .dlabel { font-size: 11px; color: #7E928A; }
+  .dnum { font-size: 12px; color: #B9C7BF; font-variant-numeric: tabular-nums; }
+
+  .btn-link {
+    border: none; background: none; color: var(--accent); cursor: pointer;
+    font: inherit; font-size: 13px; font-weight: 600; padding: 0;
+  }
+  .btn-link:hover { text-decoration: underline; }
+
+  footer { text-align: center; color: var(--faint); font-size: 12.5px; margin-top: 26px; line-height: 1.6; }
+
+  .loading { text-align: center; color: var(--muted); padding: 60px 0; font-style: italic; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+</head><body><div class="wrap" id="app">
+      <header>
+        <p class="eyebrow">Daily Reset</p>
+        <h1 class="greeting">Good morning.<br>Let’s give the day a <em>shape</em>.</h1>
+        <p class="date">Friday 26 June</p>
+      </header>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Today’s Three</h2>
+          <span class="count-pill">0/3 done</span>
+        </div>
+        <p class="hint">Three is the cap, not the goal. Pick the things that would make today feel like a win — everything else can wait or go in the parking lot below.</p>
+        <div id="three"><div class="three-row">
+        <span class="num">1</span>
+        <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+        <input class="three-input" placeholder="Priority 1…" value="Drop off my car for car services"></div><div class="three-row">
+        <span class="num">2</span>
+        <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+        <input class="three-input" placeholder="Priority 2…" value="Got my parcel from the outnet - new COAT YEAH "></div><div class="three-row">
+        <span class="num">3</span>
+        <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+        <input class="three-input" placeholder="Priority 3…" value="Check on seek or LinkedIn new job"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Parking lot</h2>
+          <button class="btn-link" id="clear-dump">Clear</button>
+        </div>
+        <p class="hint">Everything tugging at your attention goes here — out of your head, onto the page. You don’t have to do it today. Promote anything that earns a spot in your Three.</p>
+        <form class="dump-form" id="dump-form">
+          <input id="dump-input" placeholder="What’s on your mind?" autocomplete="off">
+          <button class="check" type="submit" style="border-color:var(--accent);background:var(--accent)"><svg viewBox="0 0 24 24" style="opacity:1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+        </form>
+        <div id="dump-list"><div class="dump-item"><span>Newsletter plan - what, how, when and why - refresh our plan for our comms</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button></div><div class="dump-item"><span>CRM implementation - need start working on something to be reviewed</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button></div><div class="dump-item"><span>My ADP goal setting - need to clear my mind think more</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button></div><div class="dump-item"><span>Marketing strategy refresh - end of Q3</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button></div><div class="dump-item"><span>Newsletter - pending on client approval</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Daily habits</h2>
+          <button class="btn-link" id="edit-habits">Edit</button>
+        </div>
+        <p class="hint">A few small, repeatable anchors. Keep the list short — momentum comes from showing up, not from doing everything.</p>
+        <div id="habits"><div class="habit-row done">
+          <button class="check on" aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+          <span class="habit-name">Set my Three before checking messages</span>
+          <span class="streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a2 2 0 1 0 4 0c2 2 3 3 3 6a5 5 0 0 1-10 0c0-4 4-5 5-13z"></path></svg>1 day</span></div><div class="habit-row">
+          <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+          <span class="habit-name">One distraction-free focus block</span>
+          </div><div class="habit-row">
+          <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+          <span class="habit-name">A real break away from the screen</span>
+          </div><div class="habit-row">
+          <button class="check " aria-label="Mark done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+          <span class="habit-name">Honor a hard stop to the workday</span>
+          </div></div>
+        
+      </section>
+
+      <section class="card momentum">
+        <h2>Momentum</h2>
+        <p class="hint">Your last 7 days. Each dot is a habit kept. The point isn’t a perfect grid — it’s watching the pattern fill in.</p>
+        <div class="strip" id="strip"><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">20</div>
+        <div class="dlabel">S</div></div><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">21</div>
+        <div class="dlabel">S</div></div><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">22</div>
+        <div class="dlabel">M</div></div><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">23</div>
+        <div class="dlabel">T</div></div><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">24</div>
+        <div class="dlabel">W</div></div><div class="day-col"><div class="dots"><div class="dot "></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">25</div>
+        <div class="dlabel">T</div></div><div class="day-col today"><div class="dots"><div class="dot on"></div><div class="dot "></div><div class="dot "></div><div class="dot "></div></div>
+        <div class="dnum">26</div>
+        <div class="dlabel">F</div></div></div>
+      </section>
+
+      <footer>
+        Saved automatically on this device.<br>Open it each morning — the routine builds the focus.
+      </footer>
+    </div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'routine-data';
+  const app = document.getElementById('app');
+
+  const DEFAULT_HABITS = [
+    { id: 'h1', name: 'Set my Three before checking messages' },
+    { id: 'h2', name: 'One distraction-free focus block' },
+    { id: 'h3', name: 'A real break away from the screen' },
+    { id: 'h4', name: 'Honor a hard stop to the workday' },
+  ];
+
+  let state = { habits: DEFAULT_HABITS.slice(), days: {} };
+  let editingHabits = false;
+  let saveTimer = null;
+
+  // ---------- date helpers ----------
+  const keyFor = (d) => {
+    const x = new Date(d);
+    return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+  };
+  const todayKey = () => keyFor(new Date());
+
+  function getDay(k) {
+    if (!state.days[k]) state.days[k] = { top3: [{text:'',done:false},{text:'',done:false},{text:'',done:false}], habits: {}, dump: [] };
+    const d = state.days[k];
+    if (!d.top3) d.top3 = [{text:'',done:false},{text:'',done:false},{text:'',done:false}];
+    if (!d.habits) d.habits = {};
+    if (!d.dump) d.dump = [];
+    return d;
+  }
+
+  // ---------- storage ----------
+  async function load() {
+    try {
+      const res = await window.storage.get(STORAGE_KEY);
+      if (res && res.value) {
+        const parsed = JSON.parse(res.value);
+        state.habits = Array.isArray(parsed.habits) && parsed.habits.length ? parsed.habits : DEFAULT_HABITS.slice();
+        state.days = parsed.days || {};
+      }
+    } catch (e) {
+      // No saved data yet, or storage unavailable — start fresh, work in memory.
+    }
+  }
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try { await window.storage.set(STORAGE_KEY, JSON.stringify(state)); }
+      catch (e) { /* stay in memory if save fails */ }
+    }, 250);
+  }
+
+  // ---------- streak calc ----------
+  function streakFor(habitId) {
+    let n = 0;
+    const start = new Date();
+    // if today isn't done, count from yesterday so an unstarted today doesn't zero the streak
+    const todayDone = (state.days[todayKey()] || {}).habits?.[habitId];
+    if (!todayDone) start.setDate(start.getDate() - 1);
+    for (let i = 0; i < 400; i++) {
+      const d = new Date(start); d.setDate(start.getDate() - i);
+      const day = state.days[keyFor(d)];
+      if (day && day.habits && day.habits[habitId]) n++;
+      else break;
+    }
+    return n;
+  }
+
+  // ---------- render ----------
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  const FLAME = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a2 2 0 1 0 4 0c2 2 3 3 3 6a5 5 0 0 1-10 0c0-4 4-5 5-13z"/></svg>';
+
+  function greetingText() {
+    const h = new Date().getHours();
+    if (h < 12) return ['Good morning.', 'Let’s give the day a <em>shape</em>.'];
+    if (h < 17) return ['Good afternoon.', 'A calm <em>reset</em> for the rest of today.'];
+    return ['Good evening.', 'Time to <em>close the loops</em> and wind down.'];
+  }
+
+  function render() {
+    const k = todayKey();
+    const day = getDay(k);
+    const [g1, g2] = greetingText();
+    const longDate = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    const doneCount = day.top3.filter(t => t.done && t.text.trim()).length;
+    const filled = day.top3.filter(t => t.text.trim()).length;
+
+    app.innerHTML = `
+      <header>
+        <p class="eyebrow">Daily Reset</p>
+        <h1 class="greeting">${g1}<br>${g2}</h1>
+        <p class="date">${longDate}</p>
+      </header>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Today’s Three</h2>
+          <span class="count-pill">${doneCount}/${filled || 3} done</span>
+        </div>
+        <p class="hint">Three is the cap, not the goal. Pick the things that would make today feel like a win — everything else can wait or go in the parking lot below.</p>
+        <div id="three"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Parking lot</h2>
+          <button class="btn-link" id="clear-dump" ${day.dump.length ? '' : 'style="display:none"'}>Clear</button>
+        </div>
+        <p class="hint">Everything tugging at your attention goes here — out of your head, onto the page. You don’t have to do it today. Promote anything that earns a spot in your Three.</p>
+        <form class="dump-form" id="dump-form">
+          <input id="dump-input" placeholder="What’s on your mind?" autocomplete="off" />
+          <button class="check" type="submit" style="border-color:var(--accent);background:var(--accent)"><svg viewBox="0 0 24 24" style="opacity:1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+        </form>
+        <div id="dump-list"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Daily habits</h2>
+          <button class="btn-link" id="edit-habits">${editingHabits ? 'Done' : 'Edit'}</button>
+        </div>
+        <p class="hint">A few small, repeatable anchors. Keep the list short — momentum comes from showing up, not from doing everything.</p>
+        <div id="habits"></div>
+        ${editingHabits ? `<div class="add-habit"><input id="new-habit" placeholder="Add a habit…" autocomplete="off" /><button class="promote" id="add-habit-btn">Add</button></div>` : ''}
+      </section>
+
+      <section class="card momentum">
+        <h2>Momentum</h2>
+        <p class="hint">Your last 7 days. Each dot is a habit kept. The point isn’t a perfect grid — it’s watching the pattern fill in.</p>
+        <div class="strip" id="strip"></div>
+      </section>
+
+      <footer>
+        Saved automatically on this device.<br>Open it each morning — the routine builds the focus.
+      </footer>
+    `;
+
+    renderThree(day);
+    renderDump(day);
+    renderHabits(day);
+    renderStrip();
+    wireGlobal(day);
+  }
+
+  function renderThree(day) {
+    const el = app.querySelector('#three');
+    el.innerHTML = '';
+    day.top3.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'three-row' + (item.done && item.text.trim() ? ' done' : '');
+      row.innerHTML = `
+        <span class="num">${i + 1}</span>
+        <button class="check ${item.done ? 'on' : ''}" aria-label="Mark done">${CHECK_SVG}</button>
+        <input class="three-input" placeholder="Priority ${i + 1}…" value="${escapeAttr(item.text)}" />`;
+      row.querySelector('.check').addEventListener('click', () => {
+        item.done = !item.done; save(); render();
+      });
+      const inp = row.querySelector('.three-input');
+      inp.addEventListener('input', () => { item.text = inp.value; save(); });
+      inp.addEventListener('blur', () => render());
+      el.appendChild(row);
+    });
+  }
+
+  function renderDump(day) {
+    const el = app.querySelector('#dump-list');
+    el.innerHTML = '';
+    if (!day.dump.length) {
+      el.innerHTML = '<p class="empty">Nothing parked. A clear lot is a good sign.</p>';
+      return;
+    }
+    day.dump.forEach((d, idx) => {
+      const item = document.createElement('div');
+      item.className = 'dump-item';
+      item.innerHTML = `<span>${escapeHtml(d.text)}</span>
+        <button class="promote" title="Move into Today’s Three">→ Three</button>
+        <button class="remove-btn" aria-label="Remove">×</button>`;
+      item.querySelector('.promote').addEventListener('click', () => {
+        const slot = day.top3.find(t => !t.text.trim());
+        if (slot) { slot.text = d.text; day.dump.splice(idx, 1); save(); render(); }
+        else { flashFull(item.querySelector('.promote')); }
+      });
+      item.querySelector('.remove-btn').addEventListener('click', () => {
+        day.dump.splice(idx, 1); save(); render();
+      });
+      el.appendChild(item);
+    });
+  }
+
+  function flashFull(btn) {
+    const old = btn.textContent; btn.textContent = 'Three is full';
+    setTimeout(() => { btn.textContent = old; }, 1100);
+  }
+
+  function renderHabits(day) {
+    const el = app.querySelector('#habits');
+    el.innerHTML = '';
+    if (!state.habits.length) {
+      el.innerHTML = '<p class="empty">No habits yet. Add one below to start building.</p>';
+      return;
+    }
+    state.habits.forEach((h) => {
+      const done = !!day.habits[h.id];
+      const streak = streakFor(h.id);
+      const row = document.createElement('div');
+      row.className = 'habit-row' + (done ? ' done' : '');
+      if (editingHabits) {
+        row.innerHTML = `<input class="habit-edit" value="${escapeAttr(h.name)}" />
+          <button class="remove-btn" aria-label="Remove habit">×</button>`;
+        const inp = row.querySelector('.habit-edit');
+        inp.addEventListener('input', () => { h.name = inp.value; save(); });
+        row.querySelector('.remove-btn').addEventListener('click', () => {
+          state.habits = state.habits.filter(x => x.id !== h.id); save(); render();
+        });
+      } else {
+        row.innerHTML = `
+          <button class="check ${done ? 'on' : ''}" aria-label="Mark done">${CHECK_SVG}</button>
+          <span class="habit-name">${escapeHtml(h.name)}</span>
+          ${streak > 0 ? `<span class="streak">${FLAME}${streak} day${streak > 1 ? 's' : ''}</span>` : ''}`;
+        row.querySelector('.check').addEventListener('click', () => {
+          if (done) delete day.habits[h.id]; else day.habits[h.id] = true;
+          save(); render();
+        });
+      }
+      el.appendChild(row);
+    });
+  }
+
+  function renderStrip() {
+    const el = app.querySelector('#strip');
+    el.innerHTML = '';
+    const tkey = todayKey();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const k = keyFor(d);
+      const day = state.days[k];
+      const col = document.createElement('div');
+      col.className = 'day-col' + (k === tkey ? ' today' : '');
+      const dots = state.habits.map(h => {
+        const on = day && day.habits && day.habits[h.id];
+        return `<div class="dot ${on ? 'on' : ''}"></div>`;
+      }).join('');
+      col.innerHTML = `<div class="dots">${dots || '<div class="dot"></div>'}</div>
+        <div class="dnum">${d.getDate()}</div>
+        <div class="dlabel">${d.toLocaleDateString(undefined,{weekday:'short'})[0]}</div>`;
+      el.appendChild(col);
+    }
+  }
+
+  function wireGlobal(day) {
+    const dumpForm = app.querySelector('#dump-form');
+    const dumpInput = app.querySelector('#dump-input');
+    dumpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = dumpInput.value.trim();
+      if (v) { day.dump.unshift({ text: v }); save(); render(); }
+    });
+
+    const clear = app.querySelector('#clear-dump');
+    if (clear) clear.addEventListener('click', () => { day.dump = []; save(); render(); });
+
+    app.querySelector('#edit-habits').addEventListener('click', () => {
+      editingHabits = !editingHabits; render();
+    });
+
+    const addBtn = app.querySelector('#add-habit-btn');
+    if (addBtn) {
+      const newInput = app.querySelector('#new-habit');
+      const add = () => {
+        const v = newInput.value.trim();
+        if (v) { state.habits.push({ id: 'h' + Date.now(), name: v }); save(); render(); }
+      };
+      addBtn.addEventListener('click', add);
+      newInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') add(); });
+    }
+  }
+
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function escapeAttr(s){return escapeHtml(s);}
+
+  // ---------- boot ----------
+  load().then(render).catch(render);
+})();
+</script>
+</body></html>
